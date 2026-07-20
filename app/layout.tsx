@@ -1,41 +1,33 @@
 import "./globals.css";
+
 import type { Metadata } from "next";
 
 
 export const metadata: Metadata = {
-
-title:
-"SignCraft 3D | Custom Handmade House Signs",
-
-description:
-"Create personalised handmade house signs."
-
+  title: "SignCraft 3D",
+  description: "Custom Handmade House Signs"
 };
 
 
 export default function RootLayout({
-
-children,
-
+  children,
 }: {
-
-children: React.ReactNode
-
+  children: React.ReactNode;
 }) {
 
 
-return (
+  return (
 
-<html lang="en">
+    <html lang="en">
 
-<body>
+      <body>
 
-{children}
+        {children}
 
-</body>
+      </body>
 
-</html>
+    </html>
 
-)
+  );
 
 }
