@@ -1,154 +1,112 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 
+import {useSearchParams} from "next/navigation";
 
-export default function OrderPage() {
 
-    const searchParams = useSearchParams();
+export default function Order(){
 
-    const [order, setOrder] = useState<any>(null);
 
+const params =
+useSearchParams();
 
 
-    useEffect(() => {
+const data =
+params.get("data");
 
-        const data = searchParams.get("data");
 
 
-        if (data) {
+let order:any=null;
 
-            try {
 
-                const decoded =
-                    JSON.parse(
-                        atob(data)
-                    );
 
+if(data){
 
-                setOrder(decoded);
+order =
+JSON.parse(
+Buffer.from(data,"base64").toString()
+);
 
+}
 
-            } catch(error) {
 
-                console.log(error);
 
-            }
+return (
 
-        }
+<main>
 
 
-    }, [searchParams]);
+<h1>
+Order Summary
+</h1>
 
 
 
+{
+order &&
 
+<>
 
-    if (!order) {
+<p>
+Name: {order.customerName}
+</p>
 
-        return (
 
-            <div>
+<p>
+Email: {order.email}
+</p>
 
-                Loading order...
 
-            </div>
+<p>
+Total: £{order.total}
+</p>
 
-        )
 
-    }
+<h2>
+Products
+</h2>
 
 
+{
+order.items.map(
+(item:any)=>(
 
+<div key={item.id}>
 
-    return (
+{item.modelName}
 
-        <main>
+<br/>
 
+{item.houseNumber}
+{" "}
+{item.streetName}
 
-            <h1>
-                Order Summary
-            </h1>
 
+</div>
 
+)
 
-            <p>
-                Customer: {order.customerName}
-            </p>
+)
 
+}
 
-            <p>
-                Email: {order.email}
-            </p>
 
+<button>
 
-            <p>
-                Phone: {order.phone}
-            </p>
+Pay Now
 
+</button>
 
-            <p>
-                Address: {order.address}
-            </p>
 
+</>
 
+}
 
 
-            <h2>
-                Products
-            </h2>
 
+</main>
 
+)
 
-            {
-                order.items.map(
-                    (item:any,index:number)=>(
-
-                    <div key={index}>
-
-                        <p>
-                            {item.modelName}
-                        </p>
-
-                        <p>
-                            {item.houseNumber}
-                            {" "}
-                            {item.streetName}
-                        </p>
-
-                        <p>
-                            Colour:
-                            {" "}
-                            {item.colour}
-                        </p>
-
-                    </div>
-
-                )
-                )
-            }
-
-
-
-
-
-            <h2>
-                Total:
-                £{order.total}
-            </h2>
-
-
-
-            <button>
-
-                Pay Now
-
-            </button>
-
-
-        </main>
-
-    )
 
 }
